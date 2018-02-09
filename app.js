@@ -1,9 +1,12 @@
-var fs = require("fs");
+var mongoose = require("mongoose");
 var express = require("express");
 var ejs = require("ejs");
 var bodyParser = require("body-parser");
+var data = require("./models/schema");
 var app = express();
 
+var db = "mongodb://localhost/blog";
+mongoose.connect(db);
 //Static files and engine ⛔⛔⛔
 app.set("view engine", "ejs");
 app.use("/assets", express.static("assets"));
@@ -19,14 +22,28 @@ app.use(bodyParser.urlencoded({
 // Dynamic controller GET,POST 📧📧📧
 // Home page .
 app.get("/", (req, res) => {
-    res.render("index.ejs",{
-        pageTitle:"Home"
+    data.find({}).exec((err,more)=>{
+        res.send(more)
     })
 })
 
+app.get("/signup", (req, res) => {
+    res.render("signup.ejs",{
+        pageTitle:"Join US"
+    })
+})
 
-
-
+app.post("/signup", (req, res) => {
+    data.create(req.body,(err,more)=>{
+        if(err){
+            console.log(err +'in post sign up');
+            return err
+        }else{
+            console.log(more);
+            res.send(more)
+        }
+    })
+})
 
 app.listen(2020, () => {
     console.log("server work in port 2020");
