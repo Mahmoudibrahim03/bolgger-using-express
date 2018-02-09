@@ -8,9 +8,6 @@ var person = new schema({
     job: {
         type: String,
     },
-    password: {
-        type:String
-    },
 });
 var user = mongoose.model('user', person);
 module.exports = user
