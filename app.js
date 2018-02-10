@@ -28,6 +28,16 @@ const storage = multer.diskStorage({
     destination: "./public/uploads/",
     filename: (req, file, cb) => {
         cb(null, ` ${file.fieldname} - ${Date.now()} ${path.extname(file.originalname)}`)
+    },
+    fileFilter: function (req, file, cb) {
+        var imagesExtentions = /'jpg'|'png'|'jpeg'|'svg'|gif/;
+        var extention = imagesExtentions.test(path.extname(file.originalname).lowerCase());
+        var mimetype = imagesExtentions.test(file.mimetype);
+        if (extention && mimetype) {
+            return cb(null, true)
+        } else {
+            return cb(new Error('I don\'t have a clue!'))
+        }
     }
 })
 var upload = multer({
