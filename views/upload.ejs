@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+        <link href="css/style.css" rel="stylesheet">
+    </head>
+    <body>
+    <div class="row">
+    <div class='container'>
+    <h1 class="center">Upload you photo</h1>
+        <form action="/upload" method="POST" enctype="multipart/form-data"> 
+    <div class="file-field input-field">
+      <div class="btn">
+        <span>File</span>
+        <input name = "postImage" type="file">
+      </div>
+      <div class="file-path-wrapper">
+        <input class="file-path validate" type="text">
+      </div>
+    </div>
+      <button class="btn center"type="submit">Submit</button>    
+  </form>
+    </div>   
+        
+    </div>   
+        
+  <script
+  src="http://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+    </body>
+</html>
