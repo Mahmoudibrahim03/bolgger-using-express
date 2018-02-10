@@ -32,9 +32,6 @@ const storage = multer.diskStorage({
 })
 var upload = multer({
     storage,
-    limits:{
-        fileSize:10
-    }
 }).single("postImage")
 // Dynamic controller GET,POST 📧📧📧
 // Home page.
