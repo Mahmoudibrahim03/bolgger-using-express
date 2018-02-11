@@ -53,8 +53,8 @@ app.get("/posts", (req, res) => {
 })
 app.post("/posts", (req, res) => {
     upload(req, res, (err) => {
-        if (err) {
-            res.send(`<h1> err via uploading the file <span style="color:red">${err.code}</span></h1>`)
+        if (err || req.file == undefined) {
+            res.send(`<h1> err via uploading the file <span style="color:red"> Err </span></h1>`)
         } else {
             var artical = new post({
                 title:req.body.title,
