@@ -61,6 +61,7 @@ app.post("/posts", (req, res) => {
                 description:req.body.description,
                 img:req.file.path
             }).save()
+            res.redirect("/")
         }
     })
 })
