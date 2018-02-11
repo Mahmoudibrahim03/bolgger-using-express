@@ -15,6 +15,10 @@ var postSchema = new schema({
     date: {
         type:Date,
         default:Date.now,
+    },
+    img:{
+        type:String,
+        // required:true
     }
 });
 var post = mongoose.model('post', postSchema);

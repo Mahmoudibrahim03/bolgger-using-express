@@ -40,7 +40,7 @@ var upload = multer({
         }
         cb(null, true);
     }
-}).single("postImage")
+}).single("img")
 // Dynamic controller GET,POST 📧📧📧
 // Home page.
 app.get("/", (req, res) => {
@@ -48,15 +48,19 @@ app.get("/", (req, res) => {
         res.send(more)
     })
 })
-app.get("/upload", (req, res) => {
-    res.render("upload")
+app.get("/posts", (req, res) => {
+    res.render("posts")
 })
-app.post("/upload", (req, res) => {
+app.post("/posts", (req, res) => {
     upload(req, res, (err) => {
         if (err) {
             res.send(`<h1> err via uploading the file <span style="color:red">${err.code}</span></h1>`)
         } else {
-            res.send(req.file);
+            var artical = new post({
+                title:req.body.title,
+                description:req.body.description,
+                img:req.file.path
+            }).save()
         }
     })
 })
@@ -68,7 +72,6 @@ app.post("/blog", (req, res, next) => {
         if (err) {
             console.log('err' + err)
         } else {
-            next();
             console.log(more)
         }
     })
