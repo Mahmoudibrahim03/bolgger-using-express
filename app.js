@@ -44,7 +44,7 @@ var upload = multer({
 // Dynamic controller GET,POST 📧📧📧
 // Home page.
 app.get("/", (req, res) => {
-    post.find({}).exec((err, more) => {
+    post.find({}).limit(20).exec((err, more) => {
         res.send(more)
     })
 })
