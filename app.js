@@ -6,6 +6,7 @@ var express = require("express");
 var multer = require("multer");
 var path = require('path');
 var ejs = require("ejs");
+var fs = require("fs");
 var app = express();
 
 // intialize data base information 
@@ -25,7 +26,7 @@ app.use(bodyParser.urlencoded({
 }));
 // Set storage engine .. 
 const storage = multer.diskStorage({
-    destination: "./public/uploads/",
+    destination: "./assets/uploads/",
     filename: (req, file, cb) => {
         cb(null, `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`)
     }
@@ -33,7 +34,7 @@ const storage = multer.diskStorage({
 
 var upload = multer({
     storage,
-    fileFilter : function (req, file, cb) {
+    fileFilter: function (req, file, cb) {
         // accept image only
         if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/)) {
             return cb(new Error('Only image files are allowed!'), false);
@@ -45,7 +46,10 @@ var upload = multer({
 // Home page.
 app.get("/", (req, res) => {
     post.find({}).limit(20).exec((err, more) => {
-        res.send(more)
+        res.render('index', {
+            pageTitle: 'Home',
+            data: more
+        })
     })
 })
 app.get("/posts", (req, res) => {
@@ -57,23 +61,43 @@ app.post("/posts", (req, res) => {
             res.send(`<h1> err via uploading the file <span style="color:red"> Err </span></h1>`)
         } else {
             var artical = new post({
-                title:req.body.title,
-                description:req.body.description,
-                img:req.file.path
+                title: req.body.title,
+                description: req.body.description,
+                img: req.file.path
             }).save()
             res.redirect("/")
         }
     })
 })
-app.get("/blog", (req, res) => {
-    res.render("blog");
-})
-app.post("/blog", (req, res, next) => {
-    post.create(req.body, (err, more) => {
+app.get("/remove", (req, res) => {
+    post.find({}).limit(20).exec((err, more) => {
         if (err) {
-            console.log('err' + err)
+            res.send(`there's an err ${err}`)
         } else {
-            console.log(more)
+            res.render("remove", {
+                data: more
+            })
+        }
+    })
+})
+app.post("/remove", (req, res) => {
+    console.log(req.body.title)
+    post.findOne({
+        title: req.body.title
+    }, function (err, data) {
+        if (err) {
+            res.send(err);
+        } else {
+            post.remove({
+                title: req.body.title
+            }, (err) => {
+                if (err) {
+                    res.send(err);
+                } else {
+                    fs.unlink(data.img)
+                }
+            })
+            res.redirect("/")
         }
     })
 })

@@ -130,3 +130,9 @@ fieldset {
 :-ms-input-placeholder {
   color: #888;
 }
+
+img{
+  max-width: 300px !important;
+  height: 300px !important;
+  overflow: hidden;
+}

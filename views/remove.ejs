@@ -5,32 +5,27 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
           <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
-        <link href="css/style.css" rel="stylesheet">
+        <link href="assets/css/style.css" rel="stylesheet">
     </head>
     <body>
     <div class="row">
     <div class='container'>
-    <h1 class="center">Upload you photo</h1>
-        <form action="/posts" method="POST" enctype="multipart/form-data"> 
+    <h1 class="center">remove post has title</h1>
+         
+        <form action="/remove" method="POST"> 
         <div class="file-field input-field">
-            <span>title</span>
+            <span>remove post has title</span>
             <input type="text" name="title">
         </div>
-                <div class="file-field input-field">
-            <span>description</span>
-            <input type="text" name="description" value="">
-        </div>
-    <div class="file-field input-field">
-      <div class="btn">
-        <span>File</span>
-        <input name = "img" type="file">
-      </div>
-      <div class="file-path-wrapper">
-        <input class="file-path validate" type="text">
-      </div>
-    </div>
-      <button class="btn center"type="submit">Submit</button>    
+        <button class="btn center"type="submit">Submit</button>    
   </form>
+  <% for(var i=0;i<data.length;i++){ %>
+         <h3> <%=data[i].title%> </h3>
+         <p> <%=data[i].description%></p>
+         <img class="responsive-img"src="<%= data[i].img %>">
+         <hr>
+         <% } %>
+         
     </div>   
         
     </div>   

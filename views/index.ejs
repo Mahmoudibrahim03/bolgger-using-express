@@ -10,9 +10,14 @@
         <h1>Welcome in Home page <span> ♥ <span> </h1>
         <ul>
             <li><a href="/">Home page</a></li>
-            <li><a href="/signup">Signup</a></li>          
-            <li><a href="/signin">Signin</a></li>      
-            <li><a href="/contact">Contact</a></li>
+            <li><a href="/posts">Add posts</a></li>          
+            <li><a href="/remove">remove</a></li>      
         </ul>
+          <% for(var i=0;i<data.length;i++){ %>
+         <h3> <%=data[i].title%> </h3>
+         <p> <%=data[i].description%></p>
+         <img class="responsive-img"src="<%= data[i].img %>">
+         <hr>
+         <% } %>
     </body>
 </html>

@@ -5,7 +5,8 @@ var postSchema = new schema({
     title: {
         type:String,
         trim:true,
-        required:true
+        required:true,
+        unique:true
     },
     description: {
         type: String,
