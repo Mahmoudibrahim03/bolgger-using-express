@@ -11,15 +11,12 @@ var app = express();
 
 // intialize data base information 
 var db = "mongodb://localhost/blog";
-mongoose.connect(db);
+mongoose.connect(db, { useNewUrlParser: true });
+mongoose.set('useCreateIndex', true);
 //Static files and engine ⛔⛔⛔
 app.set("view engine", "ejs");
 app.use("/assets", express.static("assets"));
 // Body-paraser setup 
-var jsonParser = bodyParser.json();
-var urlencodedParser = bodyParser.urlencoded({
-    extended: false
-});
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
     extended: true
@@ -52,15 +49,17 @@ app.get("/", (req, res) => {
         })
     })
 })
+
 app.get("/posts", (req, res) => {
     res.render("posts")
 })
+
 app.post("/posts", (req, res) => {
     upload(req, res, (err) => {
         if (err || req.file == undefined) {
             res.send(`<h1> err via uploading the file <span style="color:red"> Err </span></h1>`)
         } else {
-            var artical = new post({
+            new post({
                 title: req.body.title,
                 description: req.body.description,
                 img: req.file.path
@@ -88,16 +87,18 @@ app.post("/remove", (req, res) => {
         if (err) {
             res.send(err);
         } else {
-            post.remove({
+            post.deleteOne({
                 title: req.body.title
             }, (err) => {
                 if (err) {
                     res.send(err);
                 } else {
-                    fs.unlink(data.img)
+                    fs.unlink(data.img,(err) => {
+                        if (err) throw err;
+                        res.redirect("/");
+                      });
                 }
             })
-            res.redirect("/")
         }
     })
 })
